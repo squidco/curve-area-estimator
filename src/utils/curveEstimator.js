@@ -107,11 +107,7 @@ function curveArea(equation, domain, numberOfRectangles) {
   const width = widthOfRectangles(domain, numberOfRectangles);
   const lowerUpperDoms = lowerUpperDomains(domain, width);
   const midPoints = midPointDomains(lowerUpperDoms);
-  const lowerUpperEst = lowerUpperEstimate(
-    equation,
-    lowerUpperDoms,
-    width
-  );
+  const lowerUpperEst = lowerUpperEstimate(equation, lowerUpperDoms, width);
   const midPointEst = midPointEstimate(equation, midPoints, width);
 
   const estimates = {
@@ -120,7 +116,7 @@ function curveArea(equation, domain, numberOfRectangles) {
     midPoint: midPointEst,
   };
 
-  return estimates
+  return estimates;
 }
 
 export {
@@ -131,3 +127,81 @@ export {
   lowerUpperEstimate,
   curveArea,
 };
+
+function widthOfRectangles2(domain, numberOfRectangles) {
+  // Domain should come in this form: [0,5]
+  const lowerBound = domain[0];
+  const upperBound = domain[1];
+
+  const widthFraction = math.evaluate(
+    `(${upperBound} - ${lowerBound})/${numberOfRectangles}`
+  );
+
+  // Should always return a fraction object
+  return math.fraction(widthFraction);
+}
+
+function estimates(equation, domain, numberOfRectangles) {
+  const width = widthOfRectangles2(domain, numberOfRectangles);
+  const initialMidPoint = math.fraction(`${width}/2`);
+
+  const lowerBound = math.fraction(domain[0]);
+  const upperBound = math.fraction(domain[1]);
+
+  const lowerUpperAreas = [];
+  let midPointEst = math.fraction(0);
+
+  // Upper and lower estimation
+  for (
+    let index = lowerBound;
+    math.smallerEq(index, upperBound);
+    index = math.add(index, width)
+  ) {
+    const area = math.evaluate(`${width}*(${equation})`, { x: index });
+    lowerUpperAreas.push(area);
+  }
+  // Midpoint estimation
+  for (
+    let index = math.add(lowerBound, initialMidPoint);
+    math.smaller(index, upperBound);
+    index = math.add(index, width)
+  ) {
+    const area = math.evaluate(`${width}*(${equation})`, { x: index });
+    midPointEst = math.add(midPointEst, area);
+  }
+
+  const estimates = [];
+
+  let estimateOne = [...lowerUpperAreas];
+  estimateOne.shift();
+  let estimateTwo = [...lowerUpperAreas];
+  estimateTwo.pop();
+
+  // Calculates estimates then pushes them to estimates array
+
+  estimateOne = estimateOne.reduce((acum, current) => {
+    return math.add(acum, current);
+  }, 0);
+
+  estimateTwo = estimateTwo.reduce((acum, current) => {
+    return math.add(acum, current);
+  }, 0);
+
+  // Sorting the values by lowest to highest
+  // yes I know there is a .sort() on arrays but the values
+  // are still in math.fractions() here so it won't work
+  if (math.larger(estimateOne, estimateTwo)) {
+    estimates.push(estimateTwo, estimateOne);
+  } else {
+    estimates.push(estimateOne, estimateTwo);
+  }
+
+  console.log({
+    midPoint: midPointEst,
+    lower: estimates[0],
+    upper: estimates[1],
+  });
+  return { midPoint: midPointEst, lower: estimates[0], upper: estimates[1] };
+}
+
+estimates("y=x^2", [-5, -1], "2");
