@@ -126,27 +126,18 @@ export {
   lowerUpperDomains,
   lowerUpperEstimate,
   curveArea,
+  estimates,
 };
 
-function widthOfRectangles2(domain, numberOfRectangles) {
-  // Domain should come in this form: [0,5]
-  const lowerBound = domain[0];
-  const upperBound = domain[1];
-
-  const widthFraction = math.evaluate(
-    `(${upperBound} - ${lowerBound})/${numberOfRectangles}`
-  );
-
-  // Should always return a fraction object
-  return math.fraction(widthFraction);
-}
-
 function estimates(equation, domain, numberOfRectangles) {
-  const width = widthOfRectangles2(domain, numberOfRectangles);
-  const initialMidPoint = math.fraction(`${width}/2`);
-
+  // Bounds [-5,-1]
   const lowerBound = math.fraction(domain[0]);
   const upperBound = math.fraction(domain[1]);
+  // Width and initial midpoint
+  const width = math.evaluate(
+    `(${upperBound} - ${lowerBound})/${numberOfRectangles}`
+  );
+  const initialMidPoint = math.evaluate(`${width}/2`);
 
   const lowerUpperAreas = [];
   let midPointEst = math.fraction(0);
@@ -157,7 +148,10 @@ function estimates(equation, domain, numberOfRectangles) {
     math.smallerEq(index, upperBound);
     index = math.add(index, width)
   ) {
-    const area = math.evaluate(`${width}*(${equation})`, { x: index });
+    // Gets the absolute value of width * height because areas can't be negative
+    const area = math.abs(
+      math.evaluate(`${width}*(${equation})`, { x: index })
+    );
     lowerUpperAreas.push(area);
   }
   // Midpoint estimation
@@ -166,10 +160,13 @@ function estimates(equation, domain, numberOfRectangles) {
     math.smaller(index, upperBound);
     index = math.add(index, width)
   ) {
-    const area = math.evaluate(`${width}*(${equation})`, { x: index });
+    // Gets the absolute value of width * height because areas can't be negative
+    const area = math.abs(
+      math.evaluate(`${width}*(${equation})`, { x: index })
+    );
     midPointEst = math.add(midPointEst, area);
   }
-
+  console.log(lowerUpperAreas);
   const estimates = [];
 
   let estimateOne = [...lowerUpperAreas];
