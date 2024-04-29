@@ -5,9 +5,11 @@ const config = { number: "Fraction" };
 const math = create(all, config);
 
 function estimates(equation, domain, numberOfRectangles) {
-  // Bounds [-5,-1]
-  const lowerBound = math.fraction(domain[0]);
-  const upperBound = math.fraction(domain[1]);
+  // Bounds ex. "[-5,-1]"
+  const bounds = domain.replace(/ /g, "").slice(1, -1).split(",");
+  const lowerBound = math.fraction(bounds[0]);
+  const upperBound = math.fraction(bounds[1]);
+
   // Width and initial midpoint
   const width = math.evaluate(
     `(${upperBound} - ${lowerBound})/${numberOfRectangles}`
@@ -63,7 +65,11 @@ function estimates(equation, domain, numberOfRectangles) {
   } else {
     estimates.push(estimateOne, estimateTwo);
   }
-  return { midPoint: midPointEst, lower: estimates[0], upper: estimates[1] };
+  return {
+    midPoint: math.format(midPointEst),
+    lower: math.format(estimates[0]),
+    upper: math.format(estimates[1]),
+  };
 }
 
 export default estimates;
