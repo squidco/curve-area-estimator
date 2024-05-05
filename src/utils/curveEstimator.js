@@ -9,12 +9,13 @@ function estimates(equation, domain, numberOfRectangles) {
   const bounds = domain.replace(/ /g, "").slice(1, -1).split(",");
   const lowerBound = math.fraction(bounds[0]);
   const upperBound = math.fraction(bounds[1]);
+  const rectangles = math.fraction(numberOfRectangles);
+
+  const bs = math.subtract(upperBound, lowerBound);
 
   // Width and initial midpoint
-  const width = math.evaluate(
-    `(${upperBound} - ${lowerBound})/${numberOfRectangles}`
-  );
-  const initialMidPoint = math.evaluate(`${width}/2`);
+  const width = math.divide(bs, rectangles);
+  const initialMidPoint = math.divide(width, math.fraction(2));
 
   const lowerUpperAreas = [];
   const estimates = [];
@@ -28,7 +29,7 @@ function estimates(equation, domain, numberOfRectangles) {
   ) {
     // Gets the absolute value of width * height because areas can't be negative
     const area = math.abs(
-      math.evaluate(`${width}*(${equation})`, { x: index })
+      math.multiply(width, math.evaluate(`(${equation})`, { x: index }))
     );
     lowerUpperAreas.push(area);
   }
@@ -40,7 +41,7 @@ function estimates(equation, domain, numberOfRectangles) {
   ) {
     // Gets the absolute value of width * height because areas can't be negative
     const area = math.abs(
-      math.evaluate(`${width}*(${equation})`, { x: index })
+      math.multiply(width, math.evaluate(`(${equation})`, { x: index }))
     );
     midPointEst = math.add(midPointEst, area);
   }
