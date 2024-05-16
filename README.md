@@ -2,6 +2,8 @@
 
 ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white) ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
+Created using [mathjs](https://mathjs.org/)
+
 Have you been through Calculus? Have you had to struggle with the overwhelmingly simple yet agonizingly tedious task of estimating the area under a curve using rectangles?
 
 Oh, you have had this hyper specific problem?
@@ -15,6 +17,8 @@ All you need is the equation, domain, and number of rectangles to estimate.
 Press the "Estimate" button after you have entered your information and you will recieve the upper, lower, and midpoint estimations!
 
 All of course in fractions for ease of use and to mimic human mathematical practices!
+
+Visit the site **[here](https://stupidrectangles.netlify.app/)**!
 
 # Install
 
