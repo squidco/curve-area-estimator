@@ -1,8 +1,94 @@
-# React + Vite
+# Curve Area Estimator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Have you been through Calculus? Have you had to struggle with the overwhelmingly simple yet agonizingly tedious task of estimating the area under a curve using rectangles?
 
-Currently, two official plugins are available:
+Oh, you have had this hyper specific problem?
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Then this is the app for you!
+
+Introducing the Curve Area Estimator! Using this ingenious website, you can solve your area estimates in record time!
+
+All you need is the equation, domain, and number of rectangles to estimate. 
+
+Press the "Estimate" button after you have entered your information and you will recieve the upper, lower, and midpoint estimations!
+
+All of course in fractions for ease of use and to mimic human mathematical practices!
+
+# Install
+
+``` cmd
+## After cloning
+
+cd curve-area-estimator
+npm i
+npm run dev
+```
+
+# Syntax for Inputs
+
+## Equation
+
+The equation input uses calculator like syntax.
+
+```
+## Exponents
+y=x^2
+
+## Division
+
+y=x/2
+
+## Muliplication
+
+y=x*2 or y=2x
+```
+
+## Domain
+
+The domain input takes interval notation. 
+
+The lower bound should be entered first, then a comma, and then the upper bound should follow. 
+
+The entire interval should be surrounded by square brackets [].
+
+It will only calculate closed intervals and it will not skip entries if there is a restriction on the domain.
+
+```
+## Domain
+
+## No fractions
+
+[-1,1]
+
+## Fractions
+
+[-1/3,5]
+```
+
+## Number of Rectangles
+
+The number of rectanlges input takes a whole number.
+
+It may be able to take a fraction but estimating using one and a half rectangles doesn't make much sense.
+
+# FAQs
+
+**How do I type my equation into the site?**
+
+This site uses syntax similar to a calculator to take in equations. 
+
+If we wanted to estimate the area under the graph of X squared we would type:
+
+```
+y=x^2
+```
+
+**I have fractions in my domain. Will the site accept that?**
+
+Yes! Have no worries that this site is capable of handling fractions anywhere. 
+
+Except maybe the number of rectangles, but, it doesn't really make sense to have a fraction there.
+
+**Does my father still care and love me?**
+
+If you use my app to save time on your math homework you can ask him yourself!
