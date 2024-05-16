@@ -35,11 +35,6 @@ function App() {
     <>
       <div className="flex flex-col mx-auto justify-center text-center">
         <h1 className="font-bold">Curve Area Estimator</h1>
-        <h2 className="text-lg m-auto max-w-96">
-          Update: I have fixed an issue where a fraction in the domain would
-          result in the application not putting out the correct answer. This
-          issue should be completely resolved now. Sorry about your test scores.
-        </h2>
         <TextInput
           id={"function"}
           label={"Function"}
