@@ -11,10 +11,10 @@ function estimates(equation, domain, numberOfRectangles) {
   const upperBound = math.fraction(bounds[1]);
   const rectangles = math.fraction(numberOfRectangles);
 
-  const bs = math.subtract(upperBound, lowerBound);
+  const totalLength = math.subtract(upperBound, lowerBound);
 
   // Width and initial midpoint
-  const width = math.divide(bs, rectangles);
+  const width = math.divide(totalLength, rectangles);
   const initialMidPoint = math.divide(width, math.fraction(2));
 
   const lowerUpperAreas = [];
@@ -73,4 +73,25 @@ function estimates(equation, domain, numberOfRectangles) {
   };
 }
 
-export default estimates;
+function getPlotValues(equation, domain, numberOfRectangles) {
+  // Cutting up domain array, getting total length and width
+  const bounds = domain.replace(/ /g, "").slice(1, -1).split(",") || "";
+  const lowerBound = math.fraction(bounds[0]);
+  const upperBound = math.fraction(bounds[1]);
+  const totalLength = math.subtract(upperBound, lowerBound);
+  const subdivisions = math.divide(totalLength, math.fraction(8));
+
+  const xValues = math
+    .range(math.number(lowerBound), math.number(upperBound), math.number(subdivisions), true)
+    .toArray();
+
+  console.log(xValues);
+  const expr = math.compile(equation);
+
+  const yValues = xValues.map((x) => {
+    return math.number(expr.evaluate({ x: x }));
+  });
+  return { x: xValues, y: yValues };
+}
+
+export { estimates, getPlotValues };

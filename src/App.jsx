@@ -1,8 +1,9 @@
 import "./App.css";
 import { useState } from "react";
-import estimates from "./utils/curveEstimator";
+import { estimates, getPlotValues } from "./utils/curveEstimator";
 import TextInput from "./components/TextInput";
 import Card from "./components/Card";
+import Graph from "./components/Graph";
 
 function App() {
   const [results, setResults] = useState({
@@ -17,6 +18,18 @@ function App() {
     numberOfRectangles: "",
   });
 
+  const [plotData, setPlotData] = useState([
+    {
+      x: [],
+      y: [],
+      type: "scatter",
+      mode: "lines+markers",
+      markers: { color: "red" },
+    },
+  ]);
+
+  const [showGraph, setShowGraph] = useState(false);
+
   function onChange(e) {
     const target = e.target;
     setUserInput({ ...userInput, [target.name]: target.value });
@@ -28,7 +41,14 @@ function App() {
       userInput.domain,
       userInput.numberOfRectangles
     );
-    setResults(estimatedArea);
+    const plotValues = getPlotValues(
+      userInput.equation,
+      userInput.domain,
+      userInput.numberOfRectangles
+      );
+      setPlotData([{...plotData, x: plotValues.x, y: plotValues.y}])
+      setResults(estimatedArea);
+      setShowGraph(true);
   }
 
   return (
@@ -62,6 +82,13 @@ function App() {
         <button className="w-fit self-center" onClick={onSubmit}>
           Estimate
         </button>
+        {showGraph && (
+          <div>
+            <Graph
+              plotData={plotData}
+            />
+          </div>
+        )}
         <div className="flex justify-center">
           <Card title={"Upper Estimate"}>{results.upper}</Card>
           <Card title={"Lower Estimate"}>{results.lower}</Card>
