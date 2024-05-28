@@ -1,16 +1,29 @@
 import React, { useState } from "react";
 import Plot from "react-plotly.js";
-import { create, all } from "mathjs";
 
-// All calculations will be made with fractions by default
-const config = { number: "Fraction" };
-const math = create(all, config);
-
-export default function Graph({ equation, plotData }) {
+export default function Graph({ plotData, showGraph }) {
   return (
     <Plot
       data={plotData}
-      layout={{ width: 320, height: 320, title: equation }}
+      layout={{
+        xaxis: { color: "#fff", gridcolor: "#949494" },
+        yaxis: { color: "#fff", gridcolor: "#949494" },
+        font: { color: "#fff" },
+        width: 400,
+        height: 420,
+        paper_bgcolor: "#000000",
+        plot_bgcolor: "#000000",
+        transition: {
+          duration: 300,
+          easing: "sin-in-out",
+          ordering: "traces first",
+        },
+        modebar: {
+          orientation: "h",
+          remove: ["lasso2d", "toImage", "autoScale2d", "pan2d"],
+        },
+        dragmode: "pan",
+      }}
     />
   );
 }
